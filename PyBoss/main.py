@@ -4,23 +4,23 @@ import csv
 def parse_a_row(row):
     return ['a']
 
-#Loop over files to analyze.
-all_files = os.listdir()
-all_csv_files = []
+#Get a list of all data files to read
+all_files = os.listdir('data')
 
-#open an output file stream
-outfile = open('new_records.csv', 'w', newline='')
-#add a csv writer
+#Open an output file to gather our results
+outfile = open(os.path.join('output','new_records.csv'), 'w', newline='')
+#Add a csv writer
 csv_writer = csv.writer(outfile, delimiter=',')
 
+#Loop over all files to parse
 for afile in all_files:
+    #Need to add the path to file before we open it
+    afile = os.path.join('data',afile)
     if afile.endswith('csv'):
-        all_csv_files.append(afile)
-        #analyze file here
+        #Analyze file here
         with open(afile, 'r', newline='') as infile:
             csv_reader = csv.reader(infile, delimiter=',')
             for row in csv_reader:
-                print(row)
-                #csv_writer.writerow(row)
-#close outpuf file
+                csv_writer.writerow(parse_a_row(row))
+#Close outpuf file
 outfile.close()
